@@ -42,31 +42,31 @@ app.post('/casos', async (req: Request, res: Response) => {
     }
   });
 
-    app.get('/casos/:id', async (req: Request, res: Response) => {
-        try {
-        const casoBase = await CasoMedico.findById(req.params.id);
-    
-        if (!casoBase) {
-            return res.status(404).send({ error: 'Caso médico não encontrado.' });
-        }
-    
-        const casos = await CasoMedico.find();
+  app.get('/casos/:id', async (req: Request, res: Response) => {
+      try {
+      const casoBase = await CasoMedico.findById(req.params.id);
+  
+      if (!casoBase) {
+          return res.status(404).send({ error: 'Caso médico não encontrado.' });
+      }
+  
+      const casos = await CasoMedico.find();
 
-        const casosParaComparar = casos.filter(caso => caso._id.toString() !== casoBase._id.toString());
+      const casosParaComparar = casos.filter(caso => caso._id.toString() !== casoBase._id.toString());
 
-        const casosComSimilaridade = casosParaComparar.map((caso: CasoMedicoModel) => ({
-            caso,
-            similaridade: calcularSimilaridadePonderada(casoBase, caso),
-        }));
-    
-        casosComSimilaridade.sort((a, b) => b.similaridade - a.similaridade);
-    
-        res.status(200).send(casosComSimilaridade);
-        } catch (error) {
-        console.error('Erro ao buscar casos médicos:', error);
-        res.status(500).send({ error: 'Erro interno ao buscar casos médicos.' });
-        }
-    });
+      const casosComSimilaridade = casosParaComparar.map((caso: CasoMedicoModel) => ({
+          caso,
+          similaridade: calcularSimilaridadePonderada(casoBase, caso),
+      }));
+  
+      casosComSimilaridade.sort((a, b) => b.similaridade - a.similaridade);
+  
+      res.status(200).send(casosComSimilaridade);
+      } catch (error) {
+      console.error('Erro ao buscar casos médicos:', error);
+      res.status(500).send({ error: 'Erro interno ao buscar casos médicos.' });
+      }
+  });
 
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
