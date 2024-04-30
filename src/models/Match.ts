@@ -11,10 +11,10 @@ interface Match extends Document {
   clearencelevel: number;
   skillrank: string;
   role: string;
-  haswon: boolean;
+  haswon: number;
   operator: string;
   nbkills: number;
-  isdead: boolean;
+  isdead: number;
   weights: {
     platform: number;
     gamemode: number;
@@ -33,7 +33,7 @@ interface Match extends Document {
   }
 }
 
-const casoMedicoSchema: Schema = new Schema({
+const matchSchema: Schema = new Schema({
   platform: { type: String, required: true },
   gamemode: { type: String, required: true },
   mapname: { type: String, required: true },
@@ -44,28 +44,28 @@ const casoMedicoSchema: Schema = new Schema({
   clearencelevel: { type: Number, required: true },
   skillrank: { type: String, required: true },
   role: { type: String, required: true },
-  haswon: { type: Boolean, required: true },
+  haswon: { type: Number, required: true },
   operator: { type: String, required: true },
   nbkills: { type: Number, required: true },
-  isdead: { type: Boolean, required: true },
+  isdead: { type: Number, required: true },
   weights: {
-    platform: { type: Number, required: true, default: 0. },
-    gamemode: { type: Number, required: true, default: 0. },
-    mapname: { type: Number, required: true, default: 0. },
-    roundnumber: { type: Number, required: true, default: 0. },
-    objectivelocation: { type: Number, required: true, default: 0. },
-    endroundreason: { type: Number, required: true, default: 0. },
-    roundduration: { type: Number, required: true, default: 0. },
-    clearencelevel: { type: Number, required: true, default: 0. },
-    skillrank: { type: Number, required: true, default: 0. },
-    role: { type: Number, required: true, default: 0. },
-    haswon: { type: Number, required: true, default: 0. },
-    operator: { type: Number, required: true, default: 0. },
-    nbkills: { type: Number, required: true, default: 0. },
-    isdead: { type: Number, required: true, default: 0. },
+    platform: { type: Number, required: true, default: 0.05 },
+    gamemode: { type: Number, required: true, default: 0.1 },
+    mapname: { type: Number, required: true, default: 0.1 },
+    roundnumber: { type: Number, required: true, default: 0.03 },
+    objectivelocation: { type: Number, required: true, default: 0.02 },
+    endroundreason: { type: Number, required: true, default: 0.1 },
+    roundduration: { type: Number, required: true, default: 0.03 },
+    clearencelevel: { type: Number, required: true, default: 0.02 },
+    skillrank: { type: Number, required: true, default: 0.2 },
+    role: { type: Number, required: true, default: 0.1 },
+    haswon: { type: Number, required: true, default: 0.1 },
+    operator: { type: Number, required: true, default: 0.1 },
+    nbkills: { type: Number, required: true, default: 0.03 },
+    isdead: { type: Number, required: true, default: 0.02 },
   },
 });
 
-const CasoMedicoModel = mongoose.model<Match>('CasoMedico', casoMedicoSchema);
+const Match = mongoose.model<Match>('Match', matchSchema);
 
-export default CasoMedicoModel;
+export default Match;
