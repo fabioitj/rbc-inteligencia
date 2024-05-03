@@ -198,7 +198,7 @@ export default function Component() {
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
-                          <Progress value={similaridade} />
+                          <Progress value={similaridade * 100} />
                           <span className="font-medium">
                             {(similaridade * 100).toFixed(1)}%
                           </span>
@@ -270,7 +270,7 @@ export default function Component() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <FormField
-                    name="gamemode"
+                    name="mapname"
                     control={form.control}
                     render={({ field }) => (
                       <FormItem className="space-y-2">
