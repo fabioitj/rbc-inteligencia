@@ -81,20 +81,27 @@ export default function Component() {
       console.log(values);
       const response = await fetch("http://localhost:3001/match/data", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           platform: values.platform,
           gamemode: values.gamemode,
           mapname: values.mapname,
-          roundnumber: Number(values.roundnumber),
+          roundnumber: values.roundnumber ? Number(values.roundnumber) : null,
           endroundreason: values.endroundreason,
-          roundduration: Number(values.roundduration),
-          clearencelevel: Number(values.clearencelevel),
+          roundduration: values.roundduration
+            ? Number(values.roundduration)
+            : null,
+          clearencelevel: values.clearencelevel
+            ? Number(values.clearencelevel)
+            : null,
           skillrank: values.skillrank,
           role: values.role,
-          haswon: Number(values.haswon),
+          haswon: values.haswon ? Number(values.haswon) : null,
           operator: values.operator,
-          nbkills: Number(values.nbkills),
-          isdead: Number(values.isdead),
+          nbkills: values.nbkills ? Number(values.nbkills) : null,
+          isdead: values.isdead ? Number(values.isdead) : null,
         }),
       }).then((res) => res.json());
       setData(response);
@@ -141,14 +148,13 @@ export default function Component() {
                     <TableHead>Round</TableHead>
                     <TableHead>Motivo</TableHead>
                     <TableHead>Tempo</TableHead>
-                    <TableHead>Nivel</TableHead>
                     <TableHead>Ranque</TableHead>
                     <TableHead>Time</TableHead>
                     <TableHead>Ganhou</TableHead>
                     <TableHead>Operador</TableHead>
                     <TableHead>Eliminações</TableHead>
                     <TableHead>Morreu</TableHead>
-                    <TableHead>Similarity</TableHead>
+                    <TableHead>Similaridade</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -173,9 +179,6 @@ export default function Component() {
                         {partida.roundduration}s
                       </TableCell>
                       <TableCell className="font-medium">
-                        {partida.clearencelevel}
-                      </TableCell>
-                      <TableCell className="font-medium">
                         {partida.skillrank}
                       </TableCell>
                       <TableCell className="font-medium">
@@ -197,7 +200,7 @@ export default function Component() {
                         <div className="flex items-center gap-2">
                           <Progress value={similaridade} />
                           <span className="font-medium">
-                            {similaridade * 100}%
+                            {(similaridade * 100).toFixed(1)}%
                           </span>
                         </div>
                       </TableCell>
