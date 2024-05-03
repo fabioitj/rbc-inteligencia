@@ -60,66 +60,66 @@ app.post('/match', async (req: Request, res: Response) => {
 
 		res.status(201).send(matchModel);
 	} catch (error) {
-		console.error('Erro ao adicionar caso:', error);
-		res.status(500).send({ error: 'Erro interno ao adicionar caso.' });
+		console.error('Erro ao adicionar partida:', error);
+		res.status(500).send({ error: 'Erro interno ao adicionar partida.' });
 	}
 });
 
 app.get('/match/:id', async (req: Request, res: Response) => {
 	try {
-		const casoBase = await Match.findById(req.params.id);
+		const partidaBase = await Match.findById(req.params.id);
 
-		if (!casoBase) {
-			return res.status(404).send({ error: 'Caso médico não encontrado.' });
+		if (!partidaBase) {
+			return res.status(404).send({ error: 'Partida não encontrada.' });
 		}
 
-		const casos = await Match.find().limit(100000);
+		const partidas = await Match.find().limit(100000);
 
-		const casosParaComparar = casos.filter(caso => caso._id.toString() !== casoBase._id.toString());
+		const partidasParaComparar = partidas.filter(partida => partida._id.toString() !== partidaBase._id.toString());
 
-		const casosComSimilaridade = casosParaComparar.map((caso: Match) => ({
-			caso,
+		const partidasComSimilaridade = partidasParaComparar.map((partida: Match) => ({
+			partida,
 			similaridade: calculateSimilarity(<MatchModel>{
-				platform: casoBase.platform,
-				gamemode: casoBase.gamemode,
-				mapname: casoBase.mapname,
-				roundnumber: casoBase.roundnumber,
-				objectivelocation: casoBase.objectivelocation,
-				endroundreason: casoBase.endroundreason,
-				roundduration: casoBase.roundduration,
-				clearencelevel: casoBase.clearencelevel,
-				skillrank: casoBase.skillrank,
-				role: casoBase.role,
-				haswon: casoBase.haswon,
-				operator: casoBase.operator,
-				nbkills: casoBase.nbkills,
-				isdead: casoBase.isdead,
-				weights: casoBase.weights
+				platform: partidaBase.platform,
+				gamemode: partidaBase.gamemode,
+				mapname: partidaBase.mapname,
+				roundnumber: partidaBase.roundnumber,
+				objectivelocation: partidaBase.objectivelocation,
+				endroundreason: partidaBase.endroundreason,
+				roundduration: partidaBase.roundduration,
+				clearencelevel: partidaBase.clearencelevel,
+				skillrank: partidaBase.skillrank,
+				role: partidaBase.role,
+				haswon: partidaBase.haswon,
+				operator: partidaBase.operator,
+				nbkills: partidaBase.nbkills,
+				isdead: partidaBase.isdead,
+				weights: partidaBase.weights
 			}, <MatchModel>{
-				platform: caso.platform,
-				gamemode: caso.gamemode,
-				mapname: caso.mapname,
-				roundnumber: caso.roundnumber,
-				objectivelocation: caso.objectivelocation,
-				endroundreason: caso.endroundreason,
-				roundduration: caso.roundduration,
-				clearencelevel: caso.clearencelevel,
-				skillrank: caso.skillrank,
-				role: caso.role,
-				haswon: caso.haswon,
-				operator: caso.operator,
-				nbkills: caso.nbkills,
-				isdead: caso.isdead,
-				weights: caso.weights
+				platform: partida.platform,
+				gamemode: partida.gamemode,
+				mapname: partida.mapname,
+				roundnumber: partida.roundnumber,
+				objectivelocation: partida.objectivelocation,
+				endroundreason: partida.endroundreason,
+				roundduration: partida.roundduration,
+				clearencelevel: partida.clearencelevel,
+				skillrank: partida.skillrank,
+				role: partida.role,
+				haswon: partida.haswon,
+				operator: partida.operator,
+				nbkills: partida.nbkills,
+				isdead: partida.isdead,
+				weights: partida.weights
 			}),
 		}));
 
-		casosComSimilaridade.sort((a, b) => b.similaridade - a.similaridade);
+		partidasComSimilaridade.sort((a, b) => b.similaridade - a.similaridade);
 
-		res.status(200).send(casosComSimilaridade.slice(0, 20));
+		res.status(200).send(partidasComSimilaridade.slice(0, 20));
 	} catch (error) {
-		console.error('Erro ao buscar casos médicos:', error);
-		res.status(500).send({ error: 'Erro interno ao buscar casos médicos.' });
+		console.error('Erro ao buscar partidas médicos:', error);
+		res.status(500).send({ error: 'Erro interno ao buscar partidas médicos.' });
 	}
 });
 
@@ -142,10 +142,10 @@ app.post('/match/data', async (req: Request, res: Response) => {
 			isdead
 		} = req.body;
 
-		const casos = await Match.find().limit(100000);
+		const partidas = await Match.find().limit(100000);
 
-		const casosComSimilaridade = casos.map((caso: Match) => ({
-			caso,
+		const partidasComSimilaridade = partidas.map((partida: Match) => ({
+			partida,
 			similaridade: calculateSimilarity(<MatchModel>{
 				platform,
 				gamemode,
@@ -178,27 +178,27 @@ app.post('/match/data', async (req: Request, res: Response) => {
 					isdead: 0.02
 				}
 			}, <MatchModel>{
-				platform: caso.platform,
-				gamemode: caso.gamemode,
-				mapname: caso.mapname,
-				roundnumber: caso.roundnumber,
-				objectivelocation: caso.objectivelocation,
-				endroundreason: caso.endroundreason,
-				roundduration: caso.roundduration,
-				clearencelevel: caso.clearencelevel,
-				skillrank: caso.skillrank,
-				role: caso.role,
-				haswon: caso.haswon,
-				operator: caso.operator,
-				nbkills: caso.nbkills,
-				isdead: caso.isdead,
-				weights: caso.weights
+				platform: partida.platform,
+				gamemode: partida.gamemode,
+				mapname: partida.mapname,
+				roundnumber: partida.roundnumber,
+				objectivelocation: partida.objectivelocation,
+				endroundreason: partida.endroundreason,
+				roundduration: partida.roundduration,
+				clearencelevel: partida.clearencelevel,
+				skillrank: partida.skillrank,
+				role: partida.role,
+				haswon: partida.haswon,
+				operator: partida.operator,
+				nbkills: partida.nbkills,
+				isdead: partida.isdead,
+				weights: partida.weights
 			}),
 		}));
 
-		casosComSimilaridade.sort((a, b) => b.similaridade - a.similaridade);
+		partidasComSimilaridade.sort((a, b) => b.similaridade - a.similaridade);
 
-		res.status(200).send(casosComSimilaridade.slice(0, 20));
+		res.status(200).send(partidasComSimilaridade.slice(0, 20));
 	} catch (error) {
 		console.error('Failed to update weights:', error);
 	}
