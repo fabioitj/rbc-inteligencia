@@ -16,23 +16,23 @@ console.log("Conectou no banco de dados!");
 app.use(cors());
 app.use(bodyParser.json());
 
-app.post('/casos', async (req: Request, res: Response) => {
+app.post('/match', async (req: Request, res: Response) => {
 	try {
 		const {
-		platform,
-		gamemode,
-		mapname,
-		roundnumber,
-		objectivelocation,
-		endroundreason,
-		roundduration,
-		clearencelevel,
-		skillrank,
-		role,
-		haswon,
-		operator,
-		nbkills,
-		isdead
+			platform,
+			gamemode,
+			mapname,
+			roundnumber,
+			objectivelocation,
+			endroundreason,
+			roundduration,
+			clearencelevel,
+			skillrank,
+			role,
+			haswon,
+			operator,
+			nbkills,
+			isdead
 		} = req.body;
 
 		if (!platform || !gamemode || !mapname || !roundnumber || !objectivelocation || !endroundreason || !roundduration || !clearencelevel || !skillrank || !role || (haswon !== 0 && haswon !== 1) || !operator || !nbkills || (isdead !== 0 && isdead !== 1)) {
@@ -65,7 +65,7 @@ app.post('/casos', async (req: Request, res: Response) => {
 	}
 });
 
-app.get('/casos/:id', async (req: Request, res: Response) => {
+app.get('/match/:id', async (req: Request, res: Response) => {
 	try {
 		const casoBase = await Match.findById(req.params.id);
 
@@ -123,7 +123,7 @@ app.get('/casos/:id', async (req: Request, res: Response) => {
 	}
 });
 
-app.post('/casos/data', async (req: Request, res: Response) => {
+app.post('/match/data', async (req: Request, res: Response) => {
 	try {
 		const {
 			platform,
