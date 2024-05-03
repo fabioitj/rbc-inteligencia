@@ -70,23 +70,23 @@ function getOperatorCorrelation(op1: string, op2: string): number {
     return op1 === op2 ? 1 : 0;
 }
 
-function calculateSimilarity(baseCase: MatchModel, itCase: MatchModel): number {
+function calculateSimilarity(baseMatch: MatchModel, itMatch: MatchModel): number {
     let totalSimilarity = 0;
 
-    Object.keys(baseCase).forEach(attribute => {
-        const baseCaseValue = baseCase[attribute];
-        if (attribute !== "weights" && baseCaseValue) {
-            const weight = itCase.weights[attribute];
-            const itCaseValue = itCase[attribute];
+    Object.keys(baseMatch).forEach(attribute => {
+        const baseMatchValue = baseMatch[attribute];
+        if (attribute !== "weights" && baseMatchValue) {
+            const weight = itMatch.weights[attribute];
+            const itMatchValue = itMatch[attribute];
     
             let similarityAttribute = 0;
     
             if (attribute === "mapname") {
-                similarityAttribute = mapCorrelation[baseCaseValue]?.[itCaseValue] || 0;
+                similarityAttribute = mapCorrelation[baseMatchValue]?.[itMatchValue] || 0;
             } else if (attribute === "operator") {
-                similarityAttribute = getOperatorCorrelation(baseCaseValue, itCaseValue);
+                similarityAttribute = getOperatorCorrelation(baseMatchValue, itMatchValue);
             } else {
-                similarityAttribute = baseCaseValue === itCaseValue ? 1 : 0;
+                similarityAttribute = baseMatchValue === itMatchValue ? 1 : 0;
             }
     
             totalSimilarity += weight * similarityAttribute;
